@@ -1,0 +1,16 @@
+{
+  "name": "workspace",
+  "description": "Web app for testing, deployment and CI",
+  "main": "index.js",
+  "authors": [
+    "sousnake"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.0.0",
+    "angular": "^1.5.6",
+    "bootstrap": "^3.3.6"
+  }
+}
