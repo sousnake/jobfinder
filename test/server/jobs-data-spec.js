@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var Promise= require('bluebird');
-var jobsData = require('../jobs-data.js');
+var jobsData = require('../../jobs-data.js');
 
 function resetJobs() {
     return new Promise( function(resolve ,reject) {
@@ -38,5 +38,32 @@ describe("db get jobs", function(){
     
     it("should have a job with a description", function(){
         expect(jobs[0].description).to.not.be.empty;
+    });
+});
+
+describe("db save jobs", function(){
+    var job = {};
+    var jobs;
+    
+    function saveTestJob(){
+        return jobsData.saveJob(job);
+    }
+    
+    before(function(done){
+        jobsData.connectDB('mongodb://localhost/jobfinder')
+        .then(resetJobs)
+        .then(function(){return jobsData.saveJob(job) })
+        .then(jobsData.findJobs)
+        .then(function setJobs(collection) {
+            jobs = collection;
+            done();
+        }); 
+    });
+    after(function(){
+        mongoose.connection.close();
+    });
+    
+    it('should have one job after saving one job', function(){
+        expect(jobs).to.have.length(1);
     });
 });
